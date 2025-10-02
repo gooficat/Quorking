@@ -13,7 +13,7 @@ int main()
 	return 1;
    }
    GAME::Run(G_FPS);
-
+   
    GAME::Terminate();
    return 0;
 }

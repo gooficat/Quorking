@@ -5,17 +5,19 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <vector>
+#include <cstdint>
+
+#include "ENGINE/NODE.HPP"
+#include "ENGINE/SCENE.HPP"
 
 namespace GAME
 {
 extern uint16_t targetFrameTime;
-extern enum STATE
-{
-   QUIT,
-   MENU,
-   RUNNING,
-   PAUSED
-} state;
+bool running;
+
+std::vector<SCENE> scenes;
+extern uint16_t currentScene;
 
 extern GLFWwindow* window;
 

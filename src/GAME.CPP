@@ -10,11 +10,6 @@ GLFWwindow* window;
 bool keys[512];
 };  // namespace GAME
 
-void keyCallback(GLFWwindow*, int a_key, int, int a_action, int)
-{
-   GAME::keys[a_key] = (a_action == GLFW_PRESS) ? true : false;
-}
-
 void updateMenu() {}
 
 void renderMenuScreen() {}
@@ -58,6 +53,11 @@ int initWindowAndContext(uint16_t a_width, uint16_t a_height)
    return 1;
 }
 
+void keyCallback(GLFWwindow*, int a_key, int, int a_action, int)
+{
+   GAME::keys[a_key] = (a_action == GLFW_PRESS) ? true : false;
+}
+
 int GAME::Init(uint16_t a_width, uint16_t a_height)
 {
    if (::initWindowAndContext(a_width, a_height) == 0)
@@ -76,34 +76,22 @@ void GAME::Terminate()
 void GAME::Run(uint16_t a_FPS)
 {
    GAME::targetFrameTime = 1000 / a_FPS;
-   GAME::state = RUNNING;
-   while (GAME::state != QUIT)
+   GAME::running = true;
+   double frameStartTime, deltaTime;
+   while (GAME::running == true)
    {
+      frameStartTime = glfwGetTime();
       glfwPollEvents();
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       if (glfwWindowShouldClose(GAME::window) != 0)
       {
-         GAME::state = QUIT;
+         GAME::running = false;
          break;
       }
-      switch (GAME::state)
-      {
-      case MENU:
-         ::updateMenu();
-         ::renderMenuScreen();
-         break;
-      case PAUSED:
-         ::updatePause();
-         ::renderScreen();
-         ::renderPauseScreen();
-         break;
-      case RUNNING:
-         ::update();
-         ::renderScreen();
-         break;
-      default:
-         break;
-      }
+      GAME::scenes[currentScene].Update(deltaTime);
+      GAME::scenes[currentScene].Render();
+      
       glfwSwapBuffers(GAME::window);
+      deltaTime = glfwGetTime() - frameStartTime;
    }
 }
