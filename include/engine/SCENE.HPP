@@ -3,6 +3,8 @@
 
 #include "ENGINE/NODE.HPP"
 
+#include <vector>
+
 class SCENE
 {
  private:
@@ -11,8 +13,10 @@ class SCENE
    SCENE(/* args */);
    ~SCENE();
 
-   void (*Update)(double deltaTime);
-   void (*Render)();
+   std::vector<NODE> nodes;
+
+   void Update(double a_deltaTime);
+   void Render();
 };
 
 #endif

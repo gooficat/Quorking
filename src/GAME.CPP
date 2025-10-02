@@ -3,34 +3,22 @@
 namespace GAME
 {
 uint16_t targetFrameTime;
-enum STATE state;
 
 GLFWwindow* window;
+
+bool running;
+
+uint16_t currentScene;
+
+std::vector<SCENE> scenes;
 
 bool keys[512];
 };  // namespace GAME
 
-void updateMenu() {}
-
-void renderMenuScreen() {}
-
-void updatePause() {}
-
-void renderPauseScreen() {}
-
-void update()
+void keyCallback(GLFWwindow*, int a_key, int, int a_action, int)
 {
-   if (GAME::keys[GLFW_KEY_W])
-   {
-      std::cout << "W!" << std::endl;
-   }
-   else
-   {
-      std::cout << "L!" << std::endl;
-   }
+   GAME::keys[a_key] = (a_action == GLFW_PRESS) ? true : false;
 }
-
-void renderScreen() {}
 
 int initWindowAndContext(uint16_t a_width, uint16_t a_height)
 {
@@ -53,10 +41,6 @@ int initWindowAndContext(uint16_t a_width, uint16_t a_height)
    return 1;
 }
 
-void keyCallback(GLFWwindow*, int a_key, int, int a_action, int)
-{
-   GAME::keys[a_key] = (a_action == GLFW_PRESS) ? true : false;
-}
 
 int GAME::Init(uint16_t a_width, uint16_t a_height)
 {

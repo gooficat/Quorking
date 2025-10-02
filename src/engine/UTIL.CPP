@@ -8,6 +8,7 @@ std::string ReadFileToTxt(const std::string& a_path) {
 	}
 	std::string line;
 	std::string content;
+	std::getline(file, content);
 	while (std::getline(file, line)) {
 		content += line;
 	}

@@ -14,9 +14,9 @@
 namespace GAME
 {
 extern uint16_t targetFrameTime;
-bool running;
+extern bool running;
 
-std::vector<SCENE> scenes;
+extern std::vector<SCENE> scenes;
 extern uint16_t currentScene;
 
 extern GLFWwindow* window;

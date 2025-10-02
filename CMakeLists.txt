@@ -14,8 +14,16 @@ cmake_minimum_required(VERSION 3.15)
         
     # Add executable
     add_executable(Quorking 
-            src/MAIN.CPP
+            src/engine/MESH.CPP
+            src/engine/MODEL.CPP
+            src/engine/NODE.CPP
+            src/engine/SCENE.CPP
+            src/engine/SHADER.CPP
+            src/engine/TRANSFORM.CPP
+            src/engine/UTIL.CPP
+
             src/GAME.CPP
+            src/MAIN.CPP
             src/glad.c
     )
         
