@@ -13,7 +13,7 @@ class SCENE
    SCENE(/* args */);
    ~SCENE();
 
-   std::vector<NODE> nodes;
+   std::vector<NODE*> nodes;
 
    void Update(double a_deltaTime);
    void Render();

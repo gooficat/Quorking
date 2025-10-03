@@ -18,6 +18,7 @@ MESH::MESH(const std::vector<GLfloat>& a_vertices, const std::vector<GLuint>& a_
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat), (void*)0);
 
 	glBindVertexArray(0);
+	MESH::indexCount = a_indices.size();
 }
 
 MESH::~MESH()
@@ -29,6 +30,6 @@ MESH::~MESH()
 
 void MESH::Draw(const SHADER& a_shader) {
 	glBindVertexArray(MESH::VAO);
-	glDrawElements(0, MESH::indexCount, GL_TRIANGLES, NULL);
+	glDrawElements(GL_TRIANGLES, MESH::indexCount, GL_UNSIGNED_INT, NULL);
 }
 

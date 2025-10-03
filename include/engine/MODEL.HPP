@@ -1,6 +1,8 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
+#include <string>
+
 #include "engine/MESH.HPP"
 #include "engine/NODE.HPP"
 #include "engine/SHADER.HPP"

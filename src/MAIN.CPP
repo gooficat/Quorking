@@ -17,15 +17,15 @@ int main()
    }
 
    SHADER shader;
-   shader.Compile("../res/simple.vert", "../res/simple.frag");
+   shader.Compile("./res/simple.vert", "./res/simple.frag");
 
    SCENE scene;
 
    MESH mesh(
        {
          -0.5f, -0.5f, 0.0f,
-         -0.5f,  0.5f, 0.0f,
-          0.5f,  0.5f, 0.0f
+          0.5f, -0.5f, 0.0f,
+          0.0f,  0.5f, 0.0f
        },
        {0, 1, 2}
    );
@@ -34,10 +34,10 @@ int main()
       &mesh, &shader
    );
 
-   scene.nodes.push_back(model);
+   scene.nodes.push_back(&model);
    
 
-   GAME::scenes.push_back(scene);
+   GAME::scenes.push_back(&scene);
 
    GAME::currentScene = 0;
 

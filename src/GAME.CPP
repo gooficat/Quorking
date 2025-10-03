@@ -10,7 +10,7 @@ bool running;
 
 uint16_t currentScene;
 
-std::vector<SCENE> scenes;
+std::vector<SCENE*> scenes;
 
 bool keys[512];
 };  // namespace GAME
@@ -72,8 +72,8 @@ void GAME::Run(uint16_t a_FPS)
          GAME::running = false;
          break;
       }
-      GAME::scenes[currentScene].Update(deltaTime);
-      GAME::scenes[currentScene].Render();
+      GAME::scenes[currentScene]->Update(deltaTime);
+      GAME::scenes[currentScene]->Render();
       
       glfwSwapBuffers(GAME::window);
       deltaTime = glfwGetTime() - frameStartTime;
