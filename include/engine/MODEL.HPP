@@ -7,7 +7,7 @@
 #include "engine/NODE.HPP"
 #include "engine/SHADER.HPP"
 
-class MODEL : public NODE
+class MODEL : public SPATIAL
 {
  private:
    MESH* mesh;

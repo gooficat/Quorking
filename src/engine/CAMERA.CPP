@@ -8,14 +8,14 @@ void CAMERA::SetPerspective(float a_fov, float a_aspect, float a_near, float a_f
 {
    CAMERA::projection = glm::perspective(glm::degrees(a_fov), a_aspect, a_near, a_far);
 }
-void CAMERA::SetOrthographic(uint16_t a_startX, uint16_t a_startY, uint16_t a_endX, uint16_t a_endY)
+void CAMERA::SetOrthographic(uint16_t a_left, uint16_t a_right, uint16_t a_bottom, uint16_t a_top)
 {
-   CAMERA::projection = glm::ortho(a_startX, a_endX, a_startY, a_endY);
+   CAMERA::projection = glm::ortho(a_left, a_right, a_bottom, a_top);
 }
 
-void CAMERA::Update(double a_deltaTime)
+void CAMERA::Update(double)
 {
-   CAMERA::view = glm::lookAt(CAMERA::transform.position, CAMERA::up, CAMERA::target);
+   	CAMERA::view = glm::lookAt(CAMERA::position, CAMERA::position + CAMERA::front, CAMERA::up);
 }
 
 void CAMERA::Render() {

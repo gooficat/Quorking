@@ -13,7 +13,7 @@
 
 namespace GAME
 {
-extern uint16_t targetFrameTime;
+extern double targetFrameTime;
 extern bool running;
 
 extern std::vector<SCENE*> scenes;

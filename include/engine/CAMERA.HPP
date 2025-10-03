@@ -12,11 +12,13 @@ private:
 	glm::mat4 view, projection;
 	SHADER* shader;
 public:
-	glm::vec3 target;
+	glm::vec3 position;
+	glm::vec3 front;
 	glm::vec3 up;
+	bool targetMode;
 	CAMERA(SHADER* a_shader);
 	void SetPerspective(float a_fov, float a_aspect, float a_near, float a_far);
-	void SetOrthographic(uint16_t a_startX, uint16_t a_startY, uint16_t a_endX, uint16_t a_endY);
+	void SetOrthographic(uint16_t a_left, uint16_t a_right, uint16_t a_bottom, uint16_t a_top);
 	~CAMERA();
 	void Update(double a_deltaTime);
 	void Render();

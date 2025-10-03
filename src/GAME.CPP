@@ -2,7 +2,7 @@
 
 namespace GAME
 {
-uint16_t targetFrameTime;
+double targetFrameTime;
 
 GLFWwindow* window;
 
@@ -17,7 +17,12 @@ bool keys[512];
 
 void keyCallback(GLFWwindow*, int a_key, int, int a_action, int)
 {
-   GAME::keys[a_key] = (a_action == GLFW_PRESS) ? true : false;
+   if (a_action == GLFW_PRESS) {
+      GAME::keys[a_key] = true;
+   }
+   else if (a_action == GLFW_RELEASE) {
+      GAME::keys[a_key] = false;
+   }
 }
 
 int initWindowAndContext(uint16_t a_width, uint16_t a_height)
@@ -29,7 +34,7 @@ int initWindowAndContext(uint16_t a_width, uint16_t a_height)
       std::cerr << "GLFW Window failed to launch!" << std::endl;
       return 0;
    }
-
+   glfwSwapInterval(1);
    glfwMakeContextCurrent(GAME::window);
    glfwSetKeyCallback(GAME::window, keyCallback);
    if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == 0)
@@ -62,7 +67,7 @@ void GAME::Terminate()
 
 void GAME::Run(uint16_t a_FPS)
 {
-   GAME::targetFrameTime = 1000 / a_FPS;
+   GAME::targetFrameTime = 1.0 / a_FPS;
    GAME::running = true;
    double frameStartTime, deltaTime;
    while (GAME::running == true)
@@ -80,5 +85,13 @@ void GAME::Run(uint16_t a_FPS)
       
       glfwSwapBuffers(GAME::window);
       deltaTime = glfwGetTime() - frameStartTime;
+
+      // rudimentary system to lock the framerate
+      // if (deltaTime < targetFrameTime) {
+      //    while (glfwGetTime() - frameStartTime < targetFrameTime) {
+      //       // do nothing!
+      //    }
+      //    deltaTime = targetFrameTime;
+      // }
    }
 }
