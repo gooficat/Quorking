@@ -26,6 +26,7 @@ int initWindowAndContext(uint16_t a_width, uint16_t a_height)
    GAME::window = glfwCreateWindow(a_width, a_height, "Game", 0, NULL);
    if (GAME::window == nullptr)
    {
+      std::cerr << "GLFW Window failed to launch!" << std::endl;
       return 0;
    }
 
@@ -33,10 +34,11 @@ int initWindowAndContext(uint16_t a_width, uint16_t a_height)
    glfwSetKeyCallback(GAME::window, keyCallback);
    if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == 0)
    {
+      std::cerr << "OpenGL GLAD failed to initialize!" << std::endl;
       return 0;
    }
    glViewport(0, 0, a_width, a_height);
-   glClearColor(0.0, 0.3, 0.2, 1.0);
+   glClearColor(0.0, 0.2, 0.1, 1.0);
    glEnable(GL_DEPTH_TEST);
    return 1;
 }
@@ -46,6 +48,7 @@ int GAME::Init(uint16_t a_width, uint16_t a_height)
 {
    if (::initWindowAndContext(a_width, a_height) == 0)
    {
+      std::cerr << "Window or OpenGL failed to initialize, exiting." << std::endl;
       return 0;
    }
    return 1;

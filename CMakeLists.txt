@@ -21,6 +21,7 @@ cmake_minimum_required(VERSION 3.15)
             src/engine/SHADER.CPP
             src/engine/TRANSFORM.CPP
             src/engine/UTIL.CPP
+            src/engine/CAMERA.CPP
 
             src/GAME.CPP
             src/MAIN.CPP
