@@ -9,10 +9,10 @@ MODEL::~MODEL() {}
 
 void MODEL::Render()
 {
-	MODEL::shader->Use();
-	glm::mat4 matrix = MODEL::transform.GetMatrix();
+	this->shader->Use();
+	glm::mat4 matrix = this->transform.GetMatrix();
 	shader->SetMat4(matrix, "model");
-	MODEL::mesh->Draw(*shader);
+	this->mesh->Draw(*shader);
 }
 
 void MODEL::Update(double a_deltaTime)

@@ -23,6 +23,8 @@ extern GLFWwindow* window;
 
 extern bool keys[512];
 
+extern double mouseX, mouseY;
+
 int Init(uint16_t a_width, uint16_t a_height);
 void Run(uint16_t a_FPS);
 void Terminate();

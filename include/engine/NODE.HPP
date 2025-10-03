@@ -10,6 +10,7 @@ struct NODE
 {
    virtual void Update(double a_deltaTime);
    virtual void Render();
+   NODE();
 };
 
 struct SPATIAL : public NODE
@@ -17,6 +18,7 @@ struct SPATIAL : public NODE
 	TRANSFORM transform;
    virtual void Update(double a_deltaTime);
    virtual void Render();
+   SPATIAL();
 };
 
 
