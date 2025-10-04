@@ -1,10 +1,10 @@
 #include "ENGINE/MESH.HPP"
 
-MESH::MESH(std::vector<Vertex> a_positions, GLenum a_drawMode, TEXTURE* a_texture)
+MESH::MESH(std::vector<Vertex>& a_positions, GLenum a_drawMode, TEXTURE* a_texture)
 {
    this->genMesh(a_positions, a_drawMode, a_texture);
 }
-void MESH::genMesh(std::vector<Vertex> a_positions,
+void MESH::genMesh(std::vector<Vertex>& a_positions,
                    GLenum a_drawMode, TEXTURE* a_texture)
 {
    glGenVertexArrays(1, &(this->VAO));
