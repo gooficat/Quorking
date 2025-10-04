@@ -108,35 +108,13 @@ int main()
 
    scene.nodes.push_back(&camera);
 
-   TEXTURE tex("C:/Users/User/Documents/Quorking/res/Textures/voxescape00.png");
 
-   MESH mesh(
-       {
-           // front
-           {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}, {0, 0, 0}},
-           {{0.5f, -0.5f, 0.5f}, {1.0f, 1.0f}, {0, 0, 0}},
-           {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}, {0, 0, 0}},
-           {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f}, {0, 0, 0}},
-           // back
-           {{0.5f, 0.5f, -0.5f}, {3.0f, 2.0f}, {0, 0, 0}},
-           {{0.5f, -0.5f, -0.5f}, {3.0f, 3.0f}, {0, 0, 0}},
-           {{-0.5f, 0.5f, -0.5f}, {2.0f, 2.0f}, {0, 0, 0}},
-           {{-0.5f, -0.5f, -0.5f}, {2.0f, 3.0f}, {0, 0, 0}},
-       },
-       {0, 1, 3, 0, 2, 3, 4, 5, 7, 4, 6, 7, 0, 1, 4, 0, 2, 6, 4, 5, 1}, GL_TRIANGLES,
-       &tex);
-   MODEL model(&mesh, &shader);
-   model.transform.position = {0.0f, 0.0f, 0.0f};
-   model.transform.rotation = {0.0f, 0.0f, 0.0f};
-   model.transform.scale = {1.0f, 1.0f, 1.0f};
-
-   MESH mesh2("C:/Users/User/Documents/Quorking/res/cube.obj");
+   MESH mesh2("C:/Users/User/Documents/Quorking/res/barrel_5thgen.obj");
    MODEL model2(&mesh2, &shader);
    model2.transform.position = {0.0f, 0.0f, 0.0f};
    model2.transform.rotation = {0.0f, 0.0f, 0.0f};
    model2.transform.scale = {1.0f, 1.0f, 1.0f};
 
-   scene.nodes.push_back(&model);
 
    scene.nodes.push_back(&model2);
 

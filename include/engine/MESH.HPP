@@ -24,22 +24,16 @@ struct Vertex
 class MESH
 {
  private:
-   GLuint VAO, VBO;//, EBO;
-   // size_t indexCount;
+   GLuint VAO, VBO;
    size_t vertexCount;
    TEXTURE* texture;
-   // void genMesh(const std::vector<Vertex>& a_vertices, const std::vector<GLuint>& a_faces,
-   //              GLenum a_drawMode, TEXTURE* a_texture);
-   void genMesh(const std::vector<Vertex>& a_vertices,
-                GLenum a_drawMode, TEXTURE* a_texture);
+   GLenum drawMode;
+   void genMesh(std::vector<Vertex> a_vertices, GLenum a_drawMode, TEXTURE* a_texture);
  public:
-   // MESH(const std::vector<Vertex>& a_vertices, const std::vector<GLuint>& a_faces, GLenum a_drawMode,
-      //   TEXTURE* a_texture);
-   MESH(const std::vector<Vertex>& a_vertices, GLenum a_drawMode, TEXTURE* a_texture);
+   MESH(std::vector<Vertex> a_vertices, GLenum a_drawMode, TEXTURE* a_texture);
    MESH(std::string a_path);
    ~MESH();
-   virtual void Draw(const SHADER& a_shader);
-   GLenum drawMode;
+   void Draw(const SHADER& a_shader);
 };
 
 #endif
