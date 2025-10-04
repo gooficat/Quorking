@@ -16,10 +16,12 @@ bool keys[512];
 
 void keyCallback(GLFWwindow*, int a_key, int, int a_action, int)
 {
-   if (a_action == GLFW_PRESS) {
+   if (a_action == GLFW_PRESS)
+   {
       keys[a_key] = true;
    }
-   else if (a_action == GLFW_RELEASE) {
+   else if (a_action == GLFW_RELEASE)
+   {
       keys[a_key] = false;
    }
 }
@@ -62,7 +64,6 @@ int initWindowAndContext(uint16_t a_width, uint16_t a_height)
    return 1;
 }
 
-
 int Init(uint16_t a_width, uint16_t a_height)
 {
    if (initWindowAndContext(a_width, a_height) == 0)
@@ -70,6 +71,7 @@ int Init(uint16_t a_width, uint16_t a_height)
       std::cerr << "Window or OpenGL failed to initialize, exiting." << std::endl;
       return 0;
    }
+   stbi_set_flip_vertically_on_load(true);
    return 1;
 }
 
@@ -96,7 +98,7 @@ void Run(uint16_t a_FPS)
       }
       scenes[currentScene]->Update(deltaTime);
       scenes[currentScene]->Render();
-      
+
       glfwSwapBuffers(window);
       deltaTime = glfwGetTime() - frameStartTime;
 

@@ -4,9 +4,11 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
+#include <cstdint>
 #include <iostream>
 #include <vector>
-#include <cstdint>
+
+#include "stb_image.h"
 
 #include "ENGINE/NODE.HPP"
 #include "ENGINE/SCENE.HPP"
