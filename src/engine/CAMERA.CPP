@@ -29,10 +29,10 @@ void CAMERA::Update(double)
    else
    {
       this->view = glm::inverse(glm::mat4(1.0f));
-      this->view = glm::rotate(this->view, this->transform.rotation.z, {0.0f, 0.0f, 1.0f});
-      this->view = glm::rotate(this->view, this->transform.rotation.y, {0.0f, 1.0f, 0.0f});
       this->view = glm::rotate(this->view, this->transform.rotation.x, {1.0f, 0.0f, 0.0f});
-      this->view = glm::translate(this->view, this->transform.position);
+      this->view = glm::rotate(this->view, this->transform.rotation.y, {0.0f, 1.0f, 0.0f});
+      this->view = glm::rotate(this->view, this->transform.rotation.z, {0.0f, 0.0f, 1.0f});
+      this->view = glm::translate(this->view, -this->transform.position);
    }
 }
 

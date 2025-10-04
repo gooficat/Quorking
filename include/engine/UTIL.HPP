@@ -1,6 +1,8 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
+#include "glad/glad.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>

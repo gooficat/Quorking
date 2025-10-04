@@ -7,6 +7,6 @@ glm::mat4 TRANSFORM::GetMatrix()
    matrix = glm::rotate(matrix, this->rotation.z, {0.0f, 0.0f, 1.0f});
    matrix = glm::rotate(matrix, this->rotation.y, {0.0f, 1.0f, 0.0f});
    matrix = glm::rotate(matrix, this->rotation.x, {1.0f, 0.0f, 0.0f});
-   //matrix = glm::scale(matrix, this->scale);
+   matrix = glm::scale(matrix, this->scale);
    return matrix;
 }

@@ -1,5 +1,6 @@
 #include "ENGINE/UTIL.HPP"
 
+
 std::string ReadFileToTxt(const std::string& a_path) {
 	std::ifstream file(a_path);
 	if (file.is_open() == NULL) {
@@ -14,3 +15,4 @@ std::string ReadFileToTxt(const std::string& a_path) {
 	file.close();
 	return content;
 }
+

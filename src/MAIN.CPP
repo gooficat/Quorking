@@ -14,7 +14,7 @@ class FREECAM : public CAMERA
  public:
    FREECAM(SHADER* shader) : CAMERA(shader)
    {
-      this->SetPerspective(90.0f, (float)G_WIDTH / (float)G_HEIGHT, 0.1f, 100.0f);
+      this->SetPerspective(60.0f, (float)G_WIDTH / (float)G_HEIGHT, 0.1f, 100.0f);
    }
    double speed, mouseSens;
    void Update(double a_deltaTime)
@@ -65,7 +65,12 @@ class FREECAM : public CAMERA
          inputDir = glm::normalize(inputDir);
       }
       inputDir *= this->speed * a_deltaTime;
-      this->transform.position += inputDir;
+      glm::vec3 dir = {
+         inputDir.x * glm::cos(this->transform.rotation.y) - inputDir.z * glm::sin(this->transform.rotation.y),
+         inputDir.y,
+         inputDir.z * glm::cos(this->transform.rotation.y) + inputDir.x * glm::sin(this->transform.rotation.y)
+      };
+      this->transform.position += dir;
 
       // this->transform.rotation.x += GAME::mouseX * a_deltaTime;
       // this->transform.rotation.y += GAME::mouseY * a_deltaTime;
@@ -95,19 +100,39 @@ int main()
 
    FREECAM camera(&shader);
    camera.targetMode = false;
-   // camera.SetOrthographic(0, 0, G_WIDTH, G_HEIGHT, 0, 100);
-   camera.transform.position = {0.0f, 0.0f, -5.0f};
+   // camera.SetOrthographic(0, G_WIDTH, 0, G_HEIGHT, 0, 100);
+   camera.transform.position = {0.0f, 0.0f, 5.0f};
 
    camera.speed = 2.0;
    camera.mouseSens = 3.0;
 
    scene.nodes.push_back(&camera);
 
-   MESH mesh({
-      0.5f, 0.5f, 0.0f,
-      0.0f, -0.5f, 0.0f,
-      0.0f, 0.5f, 0.0f
-   }, {0, 1, 2}, GL_TRIANGLES);
+   TEXTURE tex(
+      "./res/Textures/voxescape00.png"
+   );
+
+   MESH mesh(
+   {
+      //front
+      {{ 0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}, {0, 0, 0}},
+      {{ 0.5f,-0.5f, 0.5f}, {1.0f, 1.0f}, {0, 0, 0}},
+      {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}, {0, 0, 0}},
+      {{-0.5f,-0.5f, 0.5f}, {0.0f, 1.0f}, {0, 0, 0}},
+      //back
+      {{ 0.5f, 0.5f,-0.5f}, {3.0f, 2.0f}, {0, 0, 0}},
+      {{ 0.5f,-0.5f,-0.5f}, {3.0f, 3.0f}, {0, 0, 0}},
+      {{-0.5f, 0.5f,-0.5f}, {2.0f, 2.0f}, {0, 0, 0}},
+      {{-0.5f,-0.5f,-0.5f}, {2.0f, 3.0f}, {0, 0, 0}},
+   }, {
+      0, 1, 3,
+      0, 2, 3,
+      4, 5, 7,
+      4, 6, 7,
+      0, 1, 4,
+      0, 2, 6,
+      4, 5, 1,
+      }, GL_TRIANGLES, &tex);
 
    MODEL model(&mesh, &shader);
    model.transform.position = {0.0f, 0.0f, 0.0f};

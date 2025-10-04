@@ -58,7 +58,7 @@ int initWindowAndContext(uint16_t a_width, uint16_t a_height)
    }
    glViewport(0, 0, a_width, a_height);
    glClearColor(0.0f, 0.2f, 0.1f, 1.0f);
-//   glEnable(GL_DEPTH_TEST);
+   glEnable(GL_DEPTH_TEST);
    return 1;
 }
 
