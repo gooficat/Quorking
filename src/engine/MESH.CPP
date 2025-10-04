@@ -26,7 +26,7 @@ void MESH::genMesh(std::vector<Vertex>& a_positions,
    this->drawMode = a_drawMode;
 }
 
-MESH::MESH(std::string a_path)
+MESH::MESH(std::string a_path, std::string a_texPath)
 {
    TEXTURE* tex = nullptr;
    std::vector<Vertex> vertices;
@@ -61,12 +61,12 @@ MESH::MESH(std::string a_path)
          std::sscanf(line.c_str(), "vn %f %f %f", &v.x, &v.y, &v.z);
          normals.push_back(v);
       }
-      else if (header == "us")
-      {
-         std::string texPath = line.substr(7, line.size() - 7);
-         std::cout << texPath << std::endl;
-         tex = new TEXTURE(texPath.c_str());
-      }
+      // else if (header == "us")
+      // {
+      //    std::string texPath = line.substr(7, line.size() - 7);
+      //    std::cout << texPath << std::endl;
+      //    tex = new TEXTURE(texPath.c_str());
+      // }
       else if (header == "f ")
       {
          Vertex v1;
@@ -98,6 +98,7 @@ MESH::MESH(std::string a_path)
       else {
          std::cout << line << std::endl;
       }
+      tex = new TEXTURE(a_texPath.c_str());
    }
 
    this->genMesh(vertices, GL_TRIANGLES, tex);

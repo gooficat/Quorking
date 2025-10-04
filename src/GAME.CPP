@@ -42,7 +42,8 @@ void mouseCallback(GLFWwindow*, double a_xpos, double a_ypos)
 int initWindowAndContext(uint16_t a_width, uint16_t a_height)
 {
    glfwInit();
-   window = glfwCreateWindow(a_width, a_height, "Game", 0, NULL);
+   GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+   window = glfwCreateWindow(a_width, a_height, "Game", NULL, NULL);
    if (window == nullptr)
    {
       std::cerr << "GLFW Window failed to launch!" << std::endl;

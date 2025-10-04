@@ -9,6 +9,9 @@
 
 #include "engine/TEXTURE.HPP"
 
+#include <fastgltf/core.hpp>
+#include <fastgltf/types.hpp>
+
 struct Vertex
 {
    glm::vec3 position;
@@ -31,7 +34,7 @@ class MESH
    void genMesh(std::vector<Vertex>& a_vertices, GLenum a_drawMode, TEXTURE* a_texture);
  public:
    MESH(std::vector<Vertex>& a_vertices, GLenum a_drawMode, TEXTURE* a_texture);
-   MESH(std::string a_path);
+   MESH(std::string a_path, std::string a_texPath);
    ~MESH();
    void Draw(const SHADER& a_shader);
 };

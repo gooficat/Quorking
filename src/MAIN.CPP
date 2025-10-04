@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 
 #include "GAME.HPP"
@@ -14,7 +15,7 @@ class FREECAM : public CAMERA
  public:
    FREECAM(SHADER* shader) : CAMERA(shader)
    {
-      this->SetPerspective(60.0f, (float)G_WIDTH / (float)G_HEIGHT, 0.1f, 100.0f);
+      this->SetPerspective(60.0f, (float)G_WIDTH / (float)G_HEIGHT, 0.1f, 1000.0f);
    }
    double speed, mouseSens;
    void Update(double a_deltaTime)
@@ -85,6 +86,129 @@ class FREECAM : public CAMERA
  private:
 };
 
+SHADER* generalShader;
+
+class SECTOR : public NODE
+{
+ public:
+   glm::vec2* vertices;
+   float floorHeight, ceilHeight;
+   MESH *floorRenderMesh, *ceilRenderMesh, *wallRenderMesh;
+   TRANSFORM transform;
+   SECTOR(std::vector<glm::vec2> vertices, float floorHeight, float ceilHeight,
+          TEXTURE* wallTexture, TEXTURE* floorTexture, TEXTURE* ceilTexture,
+         std::vector<uint16_t> portals)
+         : floorHeight(floorHeight), ceilHeight(ceilHeight)
+   {
+      this->vertices = vertices.data();
+      std::vector<Vertex> floorRenderVerts, ceilRenderVerts, wallRenderVerts;
+      for (int v = 0; v < vertices.size(); v++) {
+         floorRenderVerts.push_back({
+            {
+            vertices[v].x,
+            floorHeight,
+            vertices[v].y
+            },{
+            vertices[v].x,
+            vertices[v].y
+            }
+         });
+         ceilRenderVerts.push_back({
+            {
+            vertices[v].x,
+            ceilHeight,
+            vertices[v].y
+            },{
+            vertices[v].x,
+            vertices[v].y
+            }
+         });
+         bool skip = false;
+         for (int i = 0; i < portals.size(); i++) {
+            if (portals[i] == v) {
+               skip = true;
+            }
+         }
+         if (skip == true) {
+            continue;
+         }
+         wallRenderVerts.push_back({
+            {
+            vertices[v].x,
+            floorHeight,
+            vertices[v].y
+            },{
+            vertices[v].x,
+            floorHeight
+            }
+         });
+         wallRenderVerts.push_back({
+            {
+            vertices[v].x,
+            ceilHeight,
+            vertices[v].y
+            },{
+            vertices[v].x,
+            ceilHeight
+            }
+         });
+      }
+      wallRenderVerts.push_back({
+         {
+         vertices[0].x,
+         floorHeight,
+         vertices[0].y
+         },{
+         vertices[0].x,
+         floorHeight
+         }
+      });
+      wallRenderVerts.push_back({
+         {
+         vertices[0].x,
+         ceilHeight,
+         vertices[0].y
+         },{
+         vertices[0].x,
+         ceilHeight
+         }
+      });
+      this->floorRenderMesh = new MESH(
+         floorRenderVerts, GL_TRIANGLE_FAN,
+         floorTexture
+      );
+      this->ceilRenderMesh = new MESH(
+         ceilRenderVerts, GL_TRIANGLE_FAN,
+         ceilTexture
+      );
+      this->wallRenderMesh = new MESH(
+         wallRenderVerts, GL_TRIANGLE_STRIP,
+         wallTexture
+      );
+
+      transform.position = {0, 0, 0};
+      transform.rotation = {0, 0, 0};
+      transform.scale = {1, 1, 1};
+   }
+   ~SECTOR() {
+      // delete floorRenderMesh;
+      // delete vertices;
+   }
+   void Update(double a_deltaTime) {
+      NODE::Update(a_deltaTime);
+      
+   }
+   void Render() {
+      generalShader->Use();
+      glm::mat4 matrix = this->transform.GetMatrix();
+      generalShader->SetMat4(matrix, "model");
+      this->floorRenderMesh->Draw(*generalShader);
+      this->ceilRenderMesh->Draw(*generalShader);
+      this->wallRenderMesh->Draw(*generalShader);
+   }
+ private:
+};
+
 int main()
 {
    if (!GAME::Init(G_WIDTH, G_HEIGHT))
@@ -93,12 +217,17 @@ int main()
       return 1;
    }
 
-   SHADER shader;
-   shader.Compile("C:/Users/User/Documents/Quorking/res/simple.vert", "C:/Users/User/Documents/Quorking/res/simple.frag");
+   TEXTURE tex01("C:/Users/User/Documents/Quorking/res/Textures/voxescape01.png");
+   TEXTURE tex02("C:/Users/User/Documents/Quorking/res/Textures/voxescape02.png");
+   TEXTURE tex03("C:/Users/User/Documents/Quorking/res/Textures/voxescape03.png");
+
+   generalShader = new SHADER();
+   generalShader->Compile("C:/Users/User/Documents/Quorking/res/simple.vert",
+                  "C:/Users/User/Documents/Quorking/res/simple.frag");
 
    SCENE scene;
 
-   FREECAM camera(&shader);
+   FREECAM camera(generalShader);
    camera.targetMode = false;
    // camera.SetOrthographic(0, G_WIDTH, 0, G_HEIGHT, 0, 100);
    camera.transform.position = {0.0f, 0.0f, 8.0f};
@@ -108,15 +237,29 @@ int main()
 
    scene.nodes.push_back(&camera);
 
+   SECTOR sector({
+      {-6.0f, -8.0f},
+      {-10.0f,  8.0f},
+      { 0.0f,  18.0f},
+      { 10.0f,  6.0f},
+      { 8.0f, -6.0f}
+   }, -1.0f, 2.0f, &tex01, &tex02, &tex03,
+   {
+      0, 3
+   });
+   scene.nodes.push_back(&sector);
 
-   MESH mesh2("C:/Users/User/Documents/Quorking/res/barrel_5thgen.obj");
-   MODEL model2(&mesh2, &shader);
-   model2.transform.position = {0.0f, 0.0f, 0.0f};
-   model2.transform.rotation = {0.0f, 0.0f, 0.0f};
+   MESH mesh2("./res/barrel_5thgen.obj", "./res/Textures/barrel_diffuse.png");
+   MODEL model2(&mesh2, generalShader);
    model2.transform.scale = {1.0f, 1.0f, 1.0f};
 
-
    scene.nodes.push_back(&model2);
+
+   // CAMERA uiCam(generalShader);
+   // uiCam.targetMode = false;
+   // uiCam.SetOrthographic(-G_WIDTH / 2, G_WIDTH / 2, -G_HEIGHT / 2, G_HEIGHT / 2, -100, 100);
+   // scene.nodes.push_back(&uiCam);
+   // scene.nodes.push_back(&model2);
 
    GAME::scenes.push_back(&scene);
 
